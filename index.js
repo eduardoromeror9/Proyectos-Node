@@ -5,12 +5,22 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 // Crear la app
 const app = express()
 
-// Rutas
-app.use('/', usuarioRoutes); // usebusca las rutas que empiecen con una /
+
+// habilitar pug
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+
+// Carpeta publica
+app.use(express.static('public'));
+
+
+// Routing
+app.use('/auth', usuarioRoutes);
 
 
 // Definir puerto
 const port = 3000;
 app.listen(port, () => {
-    console.log(`Server on port ${port}`);
+  console.log(`Server on port ${port}`);
 })

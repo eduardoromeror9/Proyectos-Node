@@ -1,5 +1,7 @@
 import { check, validationResult } from 'express-validator';
+import { generarId } from '../helpers/token.js';
 import Usuario from '../models/Usuario.js';
+
 
 
 const formularioLogin = (req, res) => {
@@ -17,21 +19,53 @@ const formularioRegistro = (req, res) => {
 const registrar = async(req, res) => {
 
   // Validar los datos
-  await check('nombre', 'el nombre es obligatorio ').notEmpty().run(req)
-  await check('email', 'el email es obligatorio ').isEmail().run(req)
-  await check('password', 'el password tiene que ser de 6 caracteres minimo ').isLength({ min: 6 }).run(req)
-  await check('repetir_password', 'los password tienen que ser iguales').equals('password').run(req)
+  await check('nombre').notEmpty().withMessage('El nombre es obligatorio').run(req);
+  await check('email').isEmail().withMessage('El email no es válido').run(req);
+  await check('password').isLength({ min: 6 }).withMessage('El password debe tener al menos 6 caracteres').run(req);
+  await check('repetir_password').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('El password no coincide');
+    } return value }).run(req);
+
 
   let resultado = validationResult(req);
 
-  // Verificar que el resultado este vacio
+  //* Verificar que el resultado este vacio
+  if (!resultado.isEmpty()) {
+    // Error de validacion
+    return res.render('auth/registro', {
+      pagina: 'Crea tu cuenta',
+      errores: resultado.array(),
+      usuario: {
+        nombre: req.body.nombre,
+        email: req.body.email
+      }
+    });
+  }
 
+  // Extraer los datos
+  const { nombre, email, password } = req.body;
 
+  // Verificar que el usuario no este registrado
+  const existeUsuario = await Usuario.findOne({ where : { email } })
+  if (existeUsuario) {
+    return res.render('auth/registro', {
+      pagina: 'Crea tu cuenta',
+      errores: [{ msg: 'El usuario ya existe' }],
+      usuario: {
+        nombre: req.body.nombre,
+        email: req.body.email
+      }
+    })
+  }
 
-  res.json(resultado.array());
-
-  const usuario = await Usuario.create(req.body);
-  res.json(usuario);
+  // Crear el usuario
+  await Usuario.create({
+    nombre,
+    email,
+    password,
+    token: generarId()
+  })
 }
 
 const formularioOlvidePassword = (req, res) => {

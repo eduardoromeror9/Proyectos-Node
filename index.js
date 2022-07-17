@@ -1,4 +1,6 @@
 import express from 'express'; // agregar el modulo en el package.json
+import csurf from 'csurf';
+import cookieParser from 'cookie-parser';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import db from './config/db.js';
 
@@ -8,6 +10,12 @@ const app = express()
 
 // Habilitar lector de datos en formularios
 app.use(express.urlencoded({ extended: true }))
+
+// Habilitar CookieParser
+app.use(cookieParser())
+
+// Habilitar CSURF
+app.use(csurf({ cookie: true }))
 
 
 // conexion a la base de datos

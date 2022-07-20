@@ -567,6 +567,9 @@ video {
 .flex {
   display: flex;
 }
+.hidden {
+  display: none;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -621,10 +624,6 @@ video {
 .bg-indigo-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
-}
-.bg-red-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 .bg-gray-50 {
   --tw-bg-opacity: 1;

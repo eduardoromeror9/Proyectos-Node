@@ -1,5 +1,5 @@
 import express from 'express'; // agregar el modulo en el package.json
-import csurf from 'csurf';
+import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import db from './config/db.js';
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 // Habilitar CSURF
-app.use(csurf({ cookie: true }))
+app.use(csrf({ cookie: true }))
 
 
 // conexion a la base de datos
@@ -45,5 +45,5 @@ app.use('/auth', usuarioRoutes);
 // Definir puerto
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server on port ${port}`);
+  console.log(`Server on port ${port}`)
 })

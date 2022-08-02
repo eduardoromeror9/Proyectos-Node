@@ -2,6 +2,7 @@ extends ../layout/admin
 
 block styles
   link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.css")
+  meta(name="csrf-token", content=csrfToken)
 
 
 block contenido
@@ -11,7 +12,7 @@ block contenido
     h2.text-center.text-2xl.font-extrabold= pagina
 
     div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-8 md:px-8")
-      form(class="dropzone border-dashed border-2 w-full min:h-96 h-auto rounded flex-col justify-center items-center" method="POST", action="/propiedades/crear")
+      form(id="imagen" class="dropzone border-dashed border-2 w-full min:h-96 h-auto rounded flex-col justify-center items-center" method="POST", action=`/propiedades/agregar-imagen/${propiedad.id}`)
         input(type="hidden" name="_csrf" value=csrfToken)
         
 

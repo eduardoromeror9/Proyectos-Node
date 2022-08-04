@@ -143,4 +143,9 @@ dist
 
 tempCodeRunnerFile.js*
 
+.jpg*
+.png*
+.jpeg*
+.gif*
+
 # End of https://www.toptal.com/developers/gitignore/api/node

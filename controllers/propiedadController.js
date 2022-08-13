@@ -8,7 +8,11 @@ const admin = async(req, res) => {
   const propiedades = await Propiedad.findAll({
     where: {
       usuarioId: id
-    }
+    },
+    include:[
+      {model: Categoria, as: 'categoria'},
+      {model: Precio, as: 'precio'}
+    ]
   })
 
   res.render('propiedades/admin', {
@@ -157,11 +161,29 @@ const almacenarImagen = async (req, res, next) => {
   
 }
 
+const editar = async (req, res) => {
+
+  // Consultar modelo de precio y categorias
+  const [categorias, precios] = await Promise.all([
+    Categoria.findAll(),
+    Precio.findAll()
+  ])
+
+  res.render('propiedades/editar', {
+    pagina: `Editar Propiedad`,
+    csrfToken: req.csrfToken(),
+    categorias,
+    precios,
+    datos: {}
+  })
+}
+
 
 export {
   admin,
   crear,
   guardar,
   agregarImagen,
-  almacenarImagen
+  almacenarImagen,
+  editar
 }

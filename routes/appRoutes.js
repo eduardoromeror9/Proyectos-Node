@@ -13,10 +13,8 @@ router.get('/', inicio)
 router.get('/categorias/:id', categoria)
 
 
-
 // Pagina 404
 router.get('/404', error)
-
 
 
 // Buscador

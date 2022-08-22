@@ -3,4 +3,4 @@
 
 
 # Para iniciar la App
-`npm run server`
+`npm run dev`

@@ -1,7 +1,8 @@
 header.bg-indigo-600.p-4
   .container.mx-auto.flex.justify-between
-    h1.text-2xl.text-white.font-extrabold.text-center Bienes
-      span.font-normal Raices
+    a(href="/")
+      h1.text-2xl.text-white.font-extrabold.text-center Bienes
+        span.font-normal Raices
 
     nav(class="my-5 text-sm md:flex md:items-center md:gap-3 font-bold text-white hidden")
       a(href="/auth/registro") Crear Cuenta 
@@ -11,8 +12,16 @@ header.bg-indigo-600.p-4
 
 div(class="bg-indigo-700 py-5 hidden lg:block")
   div(class="container mx-auto flex justify-between")
-    a(href="/categorias/1" class="text-sm font-bold uppercase text-white") Casas
-    a(href="/categorias/2" class="text-sm font-bold uppercase text-white") Departamentos
-    a(href="/categorias/3" class="text-sm font-bold uppercase text-white") Categorias
-    a(href="/categorias/4" class="text-sm font-bold uppercase text-white") Terrenos
-    a(href="/categorias/5" class="text-sm font-bold uppercase text-white") Cabañas
+    nav(class="flex gap-4 items-center")
+      a(href="/categorias/1" class="text-sm font-bold uppercase text-white") Casas
+      a(href="/categorias/2" class="text-sm font-bold uppercase text-white") Departamentos
+      a(href="/categorias/3" class="text-sm font-bold uppercase text-white") Bodega
+      a(href="/categorias/4" class="text-sm font-bold uppercase text-white") Terrenos
+      a(href="/categorias/5" class="text-sm font-bold uppercase text-white") Cabañas
+
+    form(action="/buscador" method="POST" class="flex gap-3 items-center")
+      input(type="hidden" name="_csrf" value=csrfToken)
+      label(for="termino" class="text-white text-sm font-bold uppercase") Busqueda 
+      input(type="text" name="termino" id="termino" class=" rounded-lg p-2 shadow text-sm" placeholder="Buscar Propiedades")
+
+      input(type="submit" value="Buscar" class="bg-indigo-800 text-white text-sm uppercase rounded-lg p-2 shadow hover:bg-indigo-400 cursor-pointer") 

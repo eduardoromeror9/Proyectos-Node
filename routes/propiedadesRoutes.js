@@ -6,7 +6,7 @@ import { admin, crear, guardar, agregarImagen,
   guardarCambios, eliminar,
   mostrarPropiedad 
 } from '../controllers/propiedadController.js'
-
+import identificarUsuario from '../middleware/indentificarUsuario.js'
 import protegerRuta from '../middleware/protegerRuta.js'
 import upload from '../middleware/subirImagen.js'
 
@@ -69,6 +69,7 @@ router.post('/propiedades/eliminar/:id',
 
 // Public area
 router.get('/propiedad/:id',
+  identificarUsuario,
   mostrarPropiedad
 )
 

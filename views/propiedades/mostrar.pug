@@ -13,7 +13,7 @@ block contenido
       a(href="#" class="font-bold text-gray-600 text-sm") Categoria: 
         span(class="font-normal")= propiedad.categoria.nombre
 
-    div(class="mt-5 md:flex gap-4")
+    div(class="mt-5 md:flex md:gap-4 md:items-start")
       div(class="md:w-2/3 bg-white shadow rounded-lg")
         img(src=`/uploads/${propiedad.imagen}` alt=`imagen de la propiedad ${propiedad.titulo}`)
         div(class="px-5 py-10 space-y-5")
@@ -39,7 +39,7 @@ block contenido
         
 
 
-      div(class="md:w-2/3")
+      aside(class="md:w-2/3 bg-white shadow rounded-lg")
         h3(class="text-center py-10 text-2xl leading-6 font-bold text-gray-900") Ubicacion
 
         div(class="h-96" id="mapa")
@@ -49,6 +49,24 @@ block contenido
         div(class="p-5")
           p(class="text-gray-600 font-bold text-xs") Dirección: 
             span(id="calle" class="text-gray-800 block text-lg")= propiedad.calle
+
+          if !esVendedor 
+        
+            h3(class="text-2xl text-center my-10 font-extrabold text-gray-900") Vendedor 
+            if usuario
+              form(method="POST")
+                input(type="hidden" name="_csrf" value=csrfToken)
+
+                div(class="space-y-5")
+                  label(for="mensaje") Mensaje 
+                  textarea(name="mensaje" id="mensaje" class="w-full py-2 border border-gray-300 rounded-lg shadow placeholder-gray-400" placeholder="Mensaje")
+
+                  input(type="submit" value="Enviar Mensaje" class="bg-indigo-500 text-white font-bold py-2 px-4 rounded uppercase hover:bg-indigo-700 text-sm w-full p-2 cursor-pointer")
+
+            else
+              div(class="flex flex-col items-center justify-center gap-2")
+                p(class="text-center") Si quieres ver mas información de esta propiedad
+                a(href="/auth/crear-cuenta" class="text-indigo-600 rounded text-center") crea una cuenta
 
 
 

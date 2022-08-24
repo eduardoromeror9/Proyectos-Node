@@ -1,6 +1,6 @@
 import { unlink } from 'node:fs/promises'
 import { validationResult } from 'express-validator'
-import { Categoria, Precio, Propiedad } from '../models/index.js'
+import { Categoria, Precio, Propiedad, Mensaje } from '../models/index.js'
 import { esVendedor } from '../helpers/index.js'
 
 const admin = async(req, res) => {
@@ -339,7 +339,6 @@ const eliminar = async (req, res) => {
 const mostrarPropiedad = async (req, res) => {
 
   const { id } = req.params
-  console.log(req.usuario)
 
   // Validar que la propiedad exista
   const propiedad = await Propiedad.findByPk(id, {
@@ -364,6 +363,62 @@ const mostrarPropiedad = async (req, res) => {
 }
 
 
+const enviarMensaje = async (req, res) => {
+  
+  const { id } = req.params
+
+
+  // Validar que la propiedad exista
+  const propiedad = await Propiedad.findByPk(id, {
+    include: [
+      {model: Precio, as: 'precio'},
+      {model: Categoria, as: 'categoria'},
+    ]
+  })
+
+  if (!propiedad) {
+    return res.redirect('/404')
+  }
+
+  // Renderizar errores
+  let resultado = validationResult(req)
+
+  if (!resultado.isEmpty()) {
+    res.render('propiedades/mostrar', {
+      propiedad,
+      pagina: propiedad.titulo,
+      csrfToken: req.csrfToken(),
+      usuario: req.usuario,
+      esVendedor: esVendedor(req.usuario?.id, propiedad.usuarioId),
+      errores: resultado.array()
+    })
+  }
+
+  const { mensaje } = req.body
+  const { id: propiedadId } = req.params
+  const { id: usuarioId } = req.usuario
+
+  // Almacenar el mensaje
+  await Mensaje.create({
+    mensaje,
+    propiedadId,
+    usuarioId
+  })
+
+  res.redirect('/')
+
+  // res.render('propiedades/mostrar', {
+  //   propiedad,
+  //   pagina: propiedad.titulo,
+  //   csrfToken: req.csrfToken(),
+  //   usuario: req.usuario,
+  //   esVendedor: esVendedor(req.usuario?.id, propiedad.usuarioId),
+  //   enviado: true
+  // })
+
+}
+
+
 export {
   admin,
   crear,
@@ -373,5 +428,6 @@ export {
   editar,
   guardarCambios,
   eliminar,
-  mostrarPropiedad
+  mostrarPropiedad,
+  enviarMensaje
 }

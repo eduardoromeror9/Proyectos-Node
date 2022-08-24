@@ -4,7 +4,8 @@ import { admin, crear, guardar, agregarImagen,
   almacenarImagen, 
   editar, 
   guardarCambios, eliminar,
-  mostrarPropiedad 
+  mostrarPropiedad,
+  enviarMensaje 
 } from '../controllers/propiedadController.js'
 import identificarUsuario from '../middleware/indentificarUsuario.js'
 import protegerRuta from '../middleware/protegerRuta.js'
@@ -73,6 +74,13 @@ router.get('/propiedad/:id',
   mostrarPropiedad
 )
 
+
+// Almacenar los mensajes
+router.post('/propiedad/:id',
+  identificarUsuario,
+  body('mensaje').isLength({ min: 10 }).withMessage('El mensaje no puede estar vacio o es muy corto'),
+  enviarMensaje
+)
 
 
 export default router

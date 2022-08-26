@@ -4,7 +4,19 @@ const esVendedor = ( usuaroId, propiedadUsuarioId ) => {
 
 }
 
+const formatDate = ( date ) => {
+
+  return date.toLocaleDateString( 'es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long',
+  })
+}
+
 
 export {
-  esVendedor
+  esVendedor,
+  formatDate
+
 }

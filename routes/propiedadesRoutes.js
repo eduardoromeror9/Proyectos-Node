@@ -5,7 +5,8 @@ import { admin, crear, guardar, agregarImagen,
   editar, 
   guardarCambios, eliminar,
   mostrarPropiedad,
-  enviarMensaje 
+  enviarMensaje,
+  verMensajes
 } from '../controllers/propiedadController.js'
 import identificarUsuario from '../middleware/indentificarUsuario.js'
 import protegerRuta from '../middleware/protegerRuta.js'
@@ -80,6 +81,11 @@ router.post('/propiedad/:id',
   identificarUsuario,
   body('mensaje').isLength({ min: 10 }).withMessage('El mensaje no puede estar vacio o es muy corto'),
   enviarMensaje
+)
+
+router.get('/mensajes/:id',
+  protegerRuta,
+  verMensajes
 )
 
 

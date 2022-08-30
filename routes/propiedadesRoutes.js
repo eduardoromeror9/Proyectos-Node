@@ -3,7 +3,9 @@ import { body } from 'express-validator'
 import { admin, crear, guardar, agregarImagen, 
   almacenarImagen, 
   editar, 
-  guardarCambios, eliminar,
+  guardarCambios, 
+  eliminar,
+  cambiarEstado,
   mostrarPropiedad,
   enviarMensaje,
   verMensajes
@@ -67,6 +69,11 @@ router.post('/propiedades/editar/:id',
 router.post('/propiedades/eliminar/:id',
   protegerRuta,
   eliminar
+)
+
+router.put('/propiedades/:id', 
+  protegerRuta,
+  cambiarEstado
 )
 
 // Public area

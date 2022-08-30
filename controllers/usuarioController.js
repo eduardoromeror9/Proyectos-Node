@@ -6,7 +6,6 @@ import { generarId, generarJWT } from '../helpers/tokens.js';
 import Usuario from '../models/Usuario.js';
 
 
-
 const formularioLogin = (req, res) => {
   res.render('auth/login', {
     pagina: 'Iniciar sesión',
@@ -74,12 +73,16 @@ const autenticar = async(req, res) => {
 
 }
 
+const cerrarSesion = (req, res) => {
+  return res.cookie('_token').status(200).redirect('/auth/login')
+}
+
 
 const formularioRegistro = (req, res) => {
   res.render('auth/registro', {
     pagina: 'Crea tu cuenta',
     csrfToken: req.csrfToken()
-  });
+  })
 }
 
 const registrar = async(req, res) => {
@@ -107,7 +110,7 @@ const registrar = async(req, res) => {
         nombre: req.body.nombre,
         email: req.body.email
       }
-    });
+    })
   }
 
   // Extraer los datos
@@ -301,6 +304,7 @@ const nuevoPassword = async(req, res) => {
 export {
   formularioLogin,
   autenticar,
+  cerrarSesion,
   formularioRegistro,
   registrar,
   confirmar,

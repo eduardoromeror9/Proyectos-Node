@@ -182,7 +182,6 @@ const almacenarImagen = async (req, res, next) => {
   }
 
   try {
-    // console.log(req.file)
 
     // Almacenar la imagen y publicar la propiedad
     propiedad.imagen = req.file.filename
@@ -335,6 +334,35 @@ const eliminar = async (req, res) => {
 
 }
 
+// Modificar el estado de la propiedad
+const cambiarEstado = async (req, res) => {
+
+  const { id } = req.params
+
+  // Validar que la propiedad exista
+  const propiedad = await Propiedad.findByPk(id)
+
+  if (!propiedad) {
+    return res.redirect('/mis-propiedades')
+  }
+
+  // Revisar que el usuario sea el dueño de la propiedad
+  if (req.usuario.id.toString() !== propiedad.usuarioId.toString()) {
+    return res.redirect('/mis-propiedades')
+  }
+
+  // Actualizar el estado de la propiedad
+  propiedad.publicado = !propiedad.publicado
+  await propiedad.save()
+
+  res.json({
+    resultado: 'ok'
+  })
+
+}
+
+
+
 // Mostrar una propiedad
 const mostrarPropiedad = async (req, res) => {
 
@@ -348,7 +376,7 @@ const mostrarPropiedad = async (req, res) => {
     ]
   })
 
-  if (!propiedad) {
+  if (!propiedad || !propiedad.publicado) {
     return res.redirect('/404')
   }
 
@@ -366,7 +394,6 @@ const mostrarPropiedad = async (req, res) => {
 const enviarMensaje = async (req, res) => {
   
   const { id } = req.params
-
 
   // Validar que la propiedad exista
   const propiedad = await Propiedad.findByPk(id, {
@@ -459,6 +486,7 @@ export {
   editar,
   guardarCambios,
   eliminar,
+  cambiarEstado,
   mostrarPropiedad,
   enviarMensaje,
   verMensajes

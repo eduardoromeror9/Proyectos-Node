@@ -211,6 +211,9 @@ tempCodeRunnerFile.js*
 *.3dm
 *.max
 
+.idea/
+.vscode/
+
 # End of https://www.toptal.com/developers/gitignore/api/images
 
 # End of https://www.toptal.com/developers/gitignore/api/node
